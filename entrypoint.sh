@@ -15,7 +15,7 @@ if [[ -n "${GROUP_ID}" ]]; then
 	groupmod -g "${GROUP_ID}" git
 fi
 if [[ -n "${USER_ID}" ]]; then
-	usermod -u "${DEFAULT_USER_ID}" git
+	usermod -u "${USER_ID}" git
 fi
 
 # Update authorized keys
