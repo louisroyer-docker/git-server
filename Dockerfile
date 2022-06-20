@@ -1,10 +1,14 @@
 FROM debian:bullseye-slim
-ARG DEFAULT_GROUP_ID=1001
-ARG DEFAULT_USER_ID=1001
-
 LABEL maintainer="Louis Royer <infos.louis.royer@gmail.com>" \
       org.opencontainers.image.authors="Louis Royer <infos.louis.royer@gmail.com>" \
       org.opencontainers.image.source="https://github.com/louisroyer/docker-git-server"
+
+ARG DEFAULT_GROUP_ID=1001
+ARG DEFAULT_USER_ID=1001
+
+# Used to disable caching of next steps, if not build since 1 day,
+# allowing to search and apply security upgrades
+ARG BUILD_DATE=""
 
 RUN apt-get update -q && \
     DEBIAN_FRONTEND=non-interactive apt-get upgrade -qy && \
