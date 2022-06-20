@@ -16,7 +16,11 @@ RUN apt-get update -q && \
     adduser git --gecos "" --no-create-home --quiet --disabled-password && \
     groupmod -g "${DEFAULT_GROUP_ID}" git && \
     usermod -u "${DEFAULT_USER_ID}" git && \
-    ln -s /run/secret/keys-host /etc/ssh/keys-host
+    mkdir -p /etc/ssh/keys-host && \
+    ln -s /run/secret/keys-host-rsa /etc/ssh/keys-host/ssh_host_rsa_key && \
+    ln -s /run/secret/keys-host-dsa /etc/ssh/keys-host/ssh_host_dsa_key && \
+    ln -s /run/secret/keys-host-ecdsa /etc/ssh/keys-host/ssh_host_ecdsa_key && \
+    ln -s /run/secret/keys-host-ed25519 /etc/ssh/keys-host/ssh_host_ed25519_key
 
 # Templates
 COPY ./sshd_config /usr/local/share/sshd_config
