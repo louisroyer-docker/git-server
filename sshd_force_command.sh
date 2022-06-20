@@ -3,9 +3,9 @@ set -e
 umask 0077
 SSH_ORIGINAL_COMMAND=$1
 VOLUME_GIT=$2
-arr=("$SSH_ORIGINAL_COMMAND")
+read -ra arr <<< "${SSH_ORIGINAL_COMMAND}"
 if [ -z "$SSH_ORIGINAL_COMMAND" ]; then
-	/usr/bin/env git-shell
+	git-shell
 elif [ ${#arr[@]} -eq 2 ] && [[ "${arr[0]}" == "git-upload-pack" || "${arr[0]}" == "git-receive-pack" || "${arr[0]}" == "git-upload-archive" ]]; then
 	if [[ "${arr[1]}" =~ .*".git'" ]]; then
 		arr[1]="${arr[1]:0:1}${VOLUME_GIT}/${arr[1]:1:-1}${arr[1]:${#arr[1]}-1}"
@@ -26,9 +26,9 @@ elif [ ${#arr[@]} -eq 2 ] && [[ "${arr[0]}" == "git-upload-pack" || "${arr[0]}" 
 			echo "done." > /dev/stderr
 		fi
 	fi
-	/usr/bin/env git-shell -c "${arr[@]}"
+	git-shell -c "${arr[*]}"
 else
-	/usr/bin/env git-shell -c "$SSH_ORIGINAL_COMMAND"
+	git-shell -c "${SSH_ORIGINAL_COMMAND}"
 fi
 
 

@@ -27,7 +27,7 @@ COPY ./sshd_config /usr/local/share/sshd_config
 COPY ./no-interactive-login.sh /usr/local/share/no-interactive-login.sh
 
 # Scripts
-COPY --chmod="go=rx" ./sshd_force_command.sh /usr/local/bin/sshd_force_command
+COPY --chmod="755" ./sshd_force_command.sh /usr/local/bin/sshd_force_command
 COPY ./entrypoint.sh /usr/local/sbin/entrypoint.sh
 
 WORKDIR /srv/git
