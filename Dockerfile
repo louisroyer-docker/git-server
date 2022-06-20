@@ -18,9 +18,9 @@ RUN apt-get update -q && \
     usermod -u "${DEFAULT_USER_ID}" git && \
     mkdir -p /etc/ssh/keys-host && \
     ln -s /run/secret/keys-host-rsa /etc/ssh/keys-host/ssh_host_rsa_key && \
-    ln -s /run/secret/keys-host-dsa /etc/ssh/keys-host/ssh_host_dsa_key && \
-    ln -s /run/secret/keys-host-ecdsa /etc/ssh/keys-host/ssh_host_ecdsa_key && \
-    ln -s /run/secret/keys-host-ed25519 /etc/ssh/keys-host/ssh_host_ed25519_key
+    ln -s /run/secret/keys-host-rsa.pub /etc/ssh/keys-host/ssh_host_rsa_key.pub && \
+    ln -s /run/secret/keys-host-ed25519 /etc/ssh/keys-host/ssh_host_ed25519_key && \
+    ln -s /run/secret/keys-host-ed25519.pub /etc/ssh/keys-host/ssh_host_ed25519_key.pub
 
 # Templates
 COPY ./sshd_config /usr/local/share/sshd_config
