@@ -12,14 +12,14 @@ if [[ -z "${VOLUME_KEYS}" ]]; then
 fi
 
 if [[ -n "${GROUP_ID}" ]]; then
-	groupmod -g "${GROUP_ID}" git
+	groupmod -g "${GROUP_ID}" git || true # if same as default, there is no change
 fi
 if [[ -n "${USER_ID}" ]]; then
-	usermod -u "${USER_ID}" git
+	usermod -u "${USER_ID}" git || true # if same as default, there is no change
 fi
 
 # Update authorized keys
-rm -f /etc/ssh/authorized_keys
+rm -f /etc/ssh/authorized_keys || true # if already deleted, ignore
 cat "${VOLUME_KEYS}"/*.pub > /etc/ssh/authorized_keys
 
 # Fill template sshd_config
