@@ -12,14 +12,14 @@ if [[ -z "${VOLUME_KEYS}" ]]; then
 fi
 
 if [[ -n "${GROUP_ID}" ]]; then
-	groupmod -g "${GROUP_ID}" git || true # if same as default, there is no change
+	groupmod -g "${GROUP_ID}" git 1>&2 2> /dev/null || true # if same as default, there is no change
 fi
 if [[ -n "${USER_ID}" ]]; then
-	usermod -u "${USER_ID}" git || true # if same as default, there is no change
+	usermod -u "${USER_ID}" git 1>&2 2>/dev/null || true # if same as default, there is no change
 fi
 
 # Update authorized keys
-rm -f /etc/ssh/authorized_keys || true # if already deleted, ignore
+rm -f /etc/ssh/authorized_keys 1>&2 2>/dev/null || true # if already deleted, ignore
 cat "${VOLUME_KEYS}"/*.pub > /etc/ssh/authorized_keys
 
 # Fill template sshd_config
@@ -70,6 +70,6 @@ case "$1" in
 	;;
 --start)
 	cd "${VOLUME_GIT}"
-	exec gosu git "/usr/bin/sshd" "${@:2}"
+	exec gosu git "/usr/bin/sshd" -D "${@:2}"
 	;;
 esac
