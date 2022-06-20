@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+VOLUME_GIT="{{VOLUME_GIT}}"
 
 OWNER="{{OWNER}}"
 
@@ -61,4 +62,4 @@ if [[ -n "${TOR_NAME}" ]]; then
 fi
 
 printf '%s\n' "Repositories list:"
-find /srv/git -maxdepth 3 -type d -name '*.git' -printf '- %P\n'
+find "${VOLUME_GIT}" -maxdepth 3 -type d -name '*.git' -printf '- %P\n'

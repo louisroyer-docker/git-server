@@ -26,7 +26,10 @@ cat "${VOLUME_KEYS}"/*.pub > /etc/ssh/authorized_keys
 ETC_SSH="/etc/ssh"
 SSHD_CONFIG="${ETC_SSH}/sshd_config"
 cp /usr/local/share/sshd_config  "${SSHD_CONFIG}"
-sed -i -e "s%{{SSH_PORT}}%${SSH_PORT}" "${SSHD_CONFIG}"
+sed -i \
+	-e "s%{{VOLUME_GIT}}%${VOLUME_GIT}%g" \
+	-e "s%{{SSH_PORT}}%${SSH_PORT}%g" \
+	"${SSHD_CONFIG}"
 
 # Fill template no-interactive-login
 HOME_GIT="/home/git"
@@ -35,6 +38,7 @@ NOINTERACTIVELOGIN="${GIT_SHELL_COMMANDS}/no-interactive-login"
 mkdir -p "${GIT_SHELL_COMMANDS}"
 cp /usr/local/share/no-interactive-login.sh "${NOINTERACTIVELOGIN}"
 sed -i \
+	-e "s%{{VOLUME_GIT}}%${VOLUME_GIT}%g" \
 	-e "s%{{OWNER}}%${OWNER}%g" \
 	-e "s%{{FRONTEND_NAME}}%${FRONTEND_NAME}%g" \
 	-e "s%{{FRONTEND_DOMAIN}}%${FRONTEND_DOMAIN}%g" \
