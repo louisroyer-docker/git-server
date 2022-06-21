@@ -1,6 +1,6 @@
 # Getting started
 ![Docker Image CI](https://github.com/louisroyer-docker/git-server/actions/workflows/docker-image.yml/badge.svg)
-![CI](https://github.com/louisroyer-docker/git-serveractions/workflows/main.yml/badge.svg)
+![CI](https://github.com/louisroyer-docker/git-server/actions/workflows/main.yml/badge.svg)
 ```yaml
 version: "3.8"
 
