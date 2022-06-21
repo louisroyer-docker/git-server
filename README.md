@@ -1,4 +1,6 @@
 # Getting started
+![Docker Image CI](https://github.com/louisroyer-minetest/virtual-key/actions/workflows/docker-image.yml/badge.svg)
+![CI](https://github.com/louisroyer-minetest/virtual-key/actions/workflows/main.yml/badge.svg)
 ```yaml
 version: "3.8"
 
@@ -22,7 +24,7 @@ services:
       USER_ID: "1000" # edit to match your UID
       VOLUME_GIT: "/srv/git"
       VOLUME_KEYS: "/srv/git-keys"
-      OWNER: "Firstname Lastname"
+      OWNER: "John Smith"
       FRONTEND_NAME: "example.org"
       FRONTEND_DOMAIN: "git.example.org"
       FRONTEND_PORT: "2222"
