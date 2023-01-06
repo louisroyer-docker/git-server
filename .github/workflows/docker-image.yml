@@ -5,6 +5,7 @@ on:
     - cron: '00 04 * * Sat'
   push:
     branches: [ master ]
+  workflow_dispatch:
 
 jobs:
    docker:
