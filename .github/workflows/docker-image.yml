@@ -26,7 +26,7 @@ jobs:
           images: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}
           tags: |
-            type=raw,enable=true,priority=100,prefix=bullseye-,suffix=-slim,value={{date 'YYYY-MM-DD'}}-{{sha}}
+            type=raw,enable=true,priority=100,prefix=bookworm-,suffix=-slim,value={{date 'YYYY-MM-DD'}}-{{sha}}
           flavor: |
             latest=true
             prefix=
