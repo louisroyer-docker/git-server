@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# Copyright 2024 Louis Royer. All rights reserved.
+# Use of this source code is governed by a MIT-style license that can be
+# found in the LICENSE file.
+# SPDX-License-Identifier: MIT
+
 set -e
 # Check env variables are set
 if [[ -z "${VOLUME_GIT}" ]]; then
@@ -26,6 +31,7 @@ cat "${VOLUME_KEYS}"/*.pub > /etc/ssh/authorized_keys
 ETC_SSH="/etc/ssh"
 SSHD_CONFIG="${ETC_SSH}/sshd_config"
 cp /usr/local/share/sshd_config  "${SSHD_CONFIG}"
+# TODO: use awk instead to avoid issue with delimiters
 sed -i \
 	-e "s%{{VOLUME_GIT}}%${VOLUME_GIT}%g" \
 	-e "s%{{SSH_PORT}}%${SSH_PORT}%g" \
@@ -37,6 +43,7 @@ GIT_SHELL_COMMANDS="${HOME_GIT}/git-shell-commands"
 NOINTERACTIVELOGIN="${GIT_SHELL_COMMANDS}/no-interactive-login"
 mkdir -p "${GIT_SHELL_COMMANDS}"
 cp /usr/local/share/no-interactive-login.sh "${NOINTERACTIVELOGIN}"
+# TODO: use awk instead to avoid issue with delimiters
 sed -i \
 	-e "s%{{VOLUME_GIT}}%${VOLUME_GIT}%g" \
 	-e "s%{{OWNER}}%${OWNER}%g" \
