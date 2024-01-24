@@ -37,7 +37,7 @@ COPY ./entrypoint.sh /usr/local/sbin/
 
 WORKDIR /srv/git
 
-ENV SSH_PORT=2222
+ENV SSH_PORT=2222 \
     GROUP_ID="" \
     USER_ID="" \
     VOLUME_GIT="" \
