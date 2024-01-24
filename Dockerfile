@@ -51,7 +51,7 @@ ENV SSH_PORT=2222 \
     INTRANET_PORT="" \
     TOR_NAME="" \
     TOR_DOMAIN="" \
-    TOR_PORT="" \
+    TOR_PORT=""
 
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["--help"]
