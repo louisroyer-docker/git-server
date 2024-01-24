@@ -31,41 +31,27 @@ RUN apt-get update -q && \
     ln -s /run/secrets/keys-host-ed25519 /etc/ssh/keys-host/ssh_host_ed25519_key && \
     ln -s /run/secrets/keys-host-ed25519.pub /etc/ssh/keys-host/ssh_host_ed25519_key.pub
 
-# Templates
-COPY ./sshd_config /usr/local/share/sshd_config
-COPY ./no-interactive-login.sh /usr/local/share/no-interactive-login.sh
-
-# Scripts
-COPY --chmod="755" ./sshd_force_command.sh /usr/local/bin/sshd_force_command
-COPY ./entrypoint.sh /usr/local/sbin/entrypoint.sh
+COPY ./sshd_config ./no-interactive-login.sh /usr/local/share/
+COPY --chmod="755" ./sshd_force_command.sh /usr/local/bin/
+COPY ./entrypoint.sh /usr/local/sbin/
 
 WORKDIR /srv/git
 
 ENV SSH_PORT=2222
-
-ENV GROUP_ID=""
-ENV USER_ID=""
-
-ENV VOLUME_GIT=""
-ENV VOLUME_KEYS=""
-
-# Displayed owner of the git repository
-ENV OWNER=""
-
-# Displayed config values for Frontend
-ENV FRONTEND_NAME=""
-ENV FRONTEND_DOMAIN=""
-ENV FRONTEND_PORT=""
-
-# Displayed config values for Intranet
-ENV INTRANET_NAME=""
-ENV INTRANET_DOMAIN=""
-ENV INTRANET_PORT=""
-
-# Displayed config values for Tor
-ENV TOR_NAME=""
-ENV TOR_DOMAIN=""
-ENV TOR_PORT=""
+    GROUP_ID="" \
+    USER_ID="" \
+    VOLUME_GIT="" \
+    VOLUME_KEYS="" \
+    OWNER="" \
+    FRONTEND_NAME="" \
+    FRONTEND_DOMAIN="" \
+    FRONTEND_PORT="" \
+    INTRANET_NAME="" \
+    INTRANET_DOMAIN="" \
+    INTRANET_PORT="" \
+    TOR_NAME="" \
+    TOR_DOMAIN="" \
+    TOR_PORT="" \
 
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["--help"]

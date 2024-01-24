@@ -126,7 +126,7 @@ PrintLastLog no
 # override default of no subsystems
 #Subsystem	sftp	/usr/lib/ssh/sftp-server
 Subsystem	sftp	internal-sftp
-ForceCommand /usr/local/bin/sshd_force_command "$SSH_ORIGINAL_COMMAND" "{{VOLUME_GIT}}"
+ForceCommand /usr/local/bin/sshd_force_command.sh "$SSH_ORIGINAL_COMMAND" "{{VOLUME_GIT}}"
 # tcp receive buffer polling. disable in non autotuning kernels
 #TcpRcvBufPoll yes
 
