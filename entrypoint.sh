@@ -56,7 +56,7 @@ sed -i \
 	-e "s%{{TOR_NAME}}%${TOR_NAME}%g" \
 	-e "s%{{TOR_DOMAIN}}%${TOR_DOMAIN}%g" \
 	-e "s%{{TOR_PORT}}%${TOR_PORT}%g" \
-	"${NOINTERACTIVELOGIN}" 
+	"${NOINTERACTIVELOGIN}"
 
 # Rights management
 chown root:git -R "${HOME_GIT}" "${ETC_SSH}"

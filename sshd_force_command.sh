@@ -35,5 +35,3 @@ elif [ ${#arr[@]} -eq 2 ] && [[ "${arr[0]}" == "git-upload-pack" || "${arr[0]}" 
 else
 	git-shell -c "${SSH_ORIGINAL_COMMAND}"
 fi
-
-

@@ -52,8 +52,8 @@ networks:
       config:
         - subnet: "172.20.0.0/30"
           gateway: "172.20.0.1"
-          
-# keys must be already generated, restart is required after each change          
+
+# keys must be already generated, restart is required after each change
 secrets:
   keys-host-rsa:
     file: /etc/ssh/ssh_host_rsa_key
