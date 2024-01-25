@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Shellcheck
 
 # Controls when the workflow will run
 on:
@@ -21,4 +21,4 @@ jobs:
         - name: Install shellcheck
           run: sudo apt-get install -qy shellcheck
         - name: Run shellcheck
-          run: shellcheck *.sh
+          run: find . -type f -iname "*.sh" -execdir shellcheck {} + 
