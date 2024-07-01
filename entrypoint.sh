@@ -16,12 +16,22 @@ if [[ -z "${VOLUME_KEYS}" ]]; then
 	exit 1
 fi
 
-if [[ -n "${GROUP_ID}" ]]; then
-	groupmod -g "${GROUP_ID}" git 1>&2 2> /dev/null || true # if same as default, there is no change
-fi
-if [[ -n "${USER_ID}" ]]; then
-	usermod -u "${USER_ID}" git 1>&2 2>/dev/null || true # if same as default, there is no change
-fi
+# Allow sshd to be run as a non root user
+ln -sf /usr/sbin/sshd /usr/bin/sshd
+
+# Symlink secrets into /etc/ssh/keys-host
+mkdir -p /etc/ssh/keys-host
+ln -sf /run/secrets/keys-host-rsa /etc/ssh/keys-host/ssh_host_rsa_key
+ln -sf /run/secrets/keys-host-rsa.pub /etc/ssh/keys-host/ssh_host_rsa_key.pub
+ln -sf /run/secrets/keys-host-ed25519 /etc/ssh/keys-host/ssh_host_ed25519_key
+ln -sf /run/secrets/keys-host-ed25519.pub /etc/ssh/keys-host/ssh_host_ed25519_key.pub
+
+# Create user
+mkdir -p /home/git
+adduser git --gecos "" --no-create-home --quiet --disabled-password || true # if already created, ignore
+groupmod -g "${GROUP_ID:-1001}" git || true # if already in group, ignore
+usermod -u "${USER_ID:-1001}" git || true # if already this userid, ignore
+
 
 # Update authorized keys
 rm -f /etc/ssh/authorized_keys 1>&2 2>/dev/null || true # if already deleted, ignore

@@ -8,9 +8,6 @@ LABEL maintainer="Louis Royer <infos.louis.royer@gmail.com>" \
       org.opencontainers.image.authors="Louis Royer <infos.louis.royer@gmail.com>" \
       org.opencontainers.image.source="https://github.com/louisroyer/docker-git-server"
 
-ARG DEFAULT_GROUP_ID=1001
-ARG DEFAULT_USER_ID=1001
-
 # Used to disable caching of next steps, if not build since 1 day,
 # allowing to search and apply security upgrades
 ARG BUILD_DATE=""
@@ -19,17 +16,7 @@ RUN apt-get update -q && \
     DEBIAN_FRONTEND=non-interactive apt-get upgrade -qy && \
     DEBIAN_FRONTEND=non-interactive apt-get install -qy openssh-server git gosu --no-install-recommends --no-install-suggests && \
     rm -rf /var/lib/apt/lists/* && \
-    ln -s /usr/sbin/sshd /usr/bin/sshd && \
-    rm -f /etc/ssh/ssh_host_*_key* && \
-    mkdir -p /home/git && \
-    adduser git --gecos "" --no-create-home --quiet --disabled-password && \
-    groupmod -g "${DEFAULT_GROUP_ID}" git && \
-    usermod -u "${DEFAULT_USER_ID}" git && \
-    mkdir -p /etc/ssh/keys-host && \
-    ln -s /run/secrets/keys-host-rsa /etc/ssh/keys-host/ssh_host_rsa_key && \
-    ln -s /run/secrets/keys-host-rsa.pub /etc/ssh/keys-host/ssh_host_rsa_key.pub && \
-    ln -s /run/secrets/keys-host-ed25519 /etc/ssh/keys-host/ssh_host_ed25519_key && \
-    ln -s /run/secrets/keys-host-ed25519.pub /etc/ssh/keys-host/ssh_host_ed25519_key.pub
+    rm -f /etc/ssh/ssh_host_*_key*
 
 COPY ./sshd_config ./no-interactive-login.sh /usr/local/share/
 COPY --chmod="755" ./sshd_force_command.sh /usr/local/bin/
