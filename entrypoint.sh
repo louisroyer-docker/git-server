@@ -27,10 +27,11 @@ ln -sf /run/secrets/keys-host-ed25519 /etc/ssh/keys-host/ssh_host_ed25519_key
 ln -sf /run/secrets/keys-host-ed25519.pub /etc/ssh/keys-host/ssh_host_ed25519_key.pub
 
 # Create user
-mkdir -p /home/git
-adduser git --gecos "" --no-create-home --quiet --disabled-password || true # if already created, ignore
-groupmod -g "${GROUP_ID:-1001}" git || true # if already in group, ignore
-usermod -u "${USER_ID:-1001}" git || true # if already this userid, ignore
+HOME_GIT="/home/${USER:-git}"
+mkdir -p "${HOME_GIT}"
+adduser "${USER:-git}" --gecos "" --no-create-home --quiet --disabled-password || true # if already created, ignore
+groupmod -g "${GROUP_ID:-1001}" "${USER:-git}" || true # if already in group, ignore
+usermod -u "${USER_ID:-1001}" "${USER:-git}" || true # if already this userid, ignore
 
 
 # Update authorized keys
@@ -51,12 +52,12 @@ awk \
 	/usr/local/share/sshd_config > "${SSHD_CONFIG}"
 
 # Fill template no-interactive-login
-HOME_GIT="/home/git"
 GIT_SHELL_COMMANDS="${HOME_GIT}/git-shell-commands"
 NOINTERACTIVELOGIN="${GIT_SHELL_COMMANDS}/no-interactive-login"
 mkdir -p "${GIT_SHELL_COMMANDS}"
 awk \
 	-v VOLUME_GIT="${VOLUME_GIT}" \
+	-v USER="${USER:-git}" \
 	-v OWNER="${OWNER}" \
 	-v FRONTEND_NAME="${FRONTEND_NAME}" \
 	-v FRONTEND_DOMAIN="${FRONTEND_DOMAIN}" \
@@ -71,6 +72,7 @@ awk \
 	' {
 		sub(/{{VOLUME_GIT}}/, VOLUME_GIT);
 		sub(/{{OWNER}}/, OWNER);
+		sub(/{{USER}}/, USER);
 		sub(/{{FRONTEND_NAME}}/, FRONTEND_NAME);
 		sub(/{{FRONTEND_DOMAIN}}/, FRONTEND_DOMAIN);
 		sub(/{{FRONTEND_VERIFY_HOST_KEY_DNS}}/, FRONTEND_VERIFY_HOST_KEY_DNS);
@@ -86,12 +88,12 @@ awk \
 	/usr/local/share/no-interactive-login.sh > "${NOINTERACTIVELOGIN}"
 
 # Rights management
-chown root:git -R "${HOME_GIT}" "${ETC_SSH}"
+chown "root:${USER:-git}" -R "${HOME_GIT}" "${ETC_SSH}"
 chmod -R g=rX,+st "${HOME_GIT}" "${ETC_SSH}"
 chmod g+x "${NOINTERACTIVELOGIN}"
 
 touch /run/sshd.pid
-chown root:git /run/sshd.pid
+chown "root:${USER:-git}" /run/sshd.pid
 chmod g+w,+s /run/sshd.pid
 
 # exec sshd process using git user
@@ -104,6 +106,6 @@ case "$1" in
 	;;
 --start)
 	cd "${VOLUME_GIT}"
-	exec gosu git "/usr/bin/sshd" -D "${@:2}"
+	exec gosu "${USER:-git}" "/usr/bin/sshd" -D "${@:2}"
 	;;
 esac

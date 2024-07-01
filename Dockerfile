@@ -27,6 +27,7 @@ WORKDIR /srv/git
 ENV SSH_PORT=2222 \
     GROUP_ID="" \
     USER_ID="" \
+    USER="" \
     VOLUME_GIT="" \
     VOLUME_KEYS="" \
     OWNER="" \

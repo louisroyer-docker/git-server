@@ -22,6 +22,7 @@ services:
       SSH_PORT: "2222" # port of the container listenned on
       GROUP_ID: "1000" # edit to match your Group ID
       USER_ID: "1000" # edit to match your UID
+      USER: "git"
       VOLUME_GIT: "/srv/git"
       VOLUME_KEYS: "/srv/git-keys"
       OWNER: "John Smith"

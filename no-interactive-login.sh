@@ -8,6 +8,7 @@ set -e
 VOLUME_GIT="{{VOLUME_GIT}}"
 
 OWNER="{{OWNER}}"
+USER="{{USER}}"
 
 FRONTEND_NAME="{{FRONTEND_NAME}}"
 FRONTEND_DOMAIN="{{FRONTEND_DOMAIN}}"
@@ -32,7 +33,7 @@ printf '%s\n' "SSH Configuration:"
 
 if [[ -n "${FRONTEND_NAME}" ]]; then
 	printf '%s\n' "Host ${FRONTEND_DOMAIN}"
-	printf '\t%s\n' "User git"
+	printf '\t%s\n' "User ${USER}"
 	if [[ -n "${FRONTEND_DOMAIN}" ]]; then
 		printf '\t%s\n' "Hostname ${FRONTEND_DOMAIN}"
 	fi
@@ -48,7 +49,7 @@ fi
 
 if [[ -n "${INTRANET_NAME}" ]]; then
 	printf '%s\n' "Host ${INTRANET_DOMAIN}"
-	printf '\t%s\n' "User git"
+	printf '\t%s\n' "User ${USER}"
 	if [[ -n "${INTRANET_DOMAIN}" ]]; then
 		printf '\t%s\n' "Hostname ${INTRANET_DOMAIN}"
 	fi
@@ -60,7 +61,7 @@ fi
 
 if [[ -n "${TOR_NAME}" ]]; then
 	printf '%s\n' "Host ${TOR_NAME}"
-	printf '\t%s\n' "User git"
+	printf '\t%s\n' "User ${USER}"
 	if [[ -n "${TOR_DOMAIN}" ]]; then
 		printf '\t%s\n' "Hostname ${TOR_DOMAIN}"
 	fi
