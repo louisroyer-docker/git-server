@@ -30,34 +30,50 @@ cat "${VOLUME_KEYS}"/*.pub > /etc/ssh/authorized_keys
 # Fill template sshd_config
 ETC_SSH="/etc/ssh"
 SSHD_CONFIG="${ETC_SSH}/sshd_config"
-cp /usr/local/share/sshd_config  "${SSHD_CONFIG}"
-# TODO: use awk instead to avoid issue with delimiters
-sed -i \
-	-e "s%{{VOLUME_GIT}}%${VOLUME_GIT}%g" \
-	-e "s%{{SSH_PORT}}%${SSH_PORT}%g" \
-	"${SSHD_CONFIG}"
+awk \
+	-v VOLUME_GIT="${VOLUME_GIT}" \
+	-v SSH_PORT="${SSH_PORT}" \
+	'{
+		sub(/{{VOLUME_GIT}}/, VOLUME_GIT);
+		sub(/{{SSH_PORT}}/, SSH_PORT);
+		print;
+	}' \
+	/usr/local/share/sshd_config > "${SSHD_CONFIG}"
 
 # Fill template no-interactive-login
 HOME_GIT="/home/git"
 GIT_SHELL_COMMANDS="${HOME_GIT}/git-shell-commands"
 NOINTERACTIVELOGIN="${GIT_SHELL_COMMANDS}/no-interactive-login"
 mkdir -p "${GIT_SHELL_COMMANDS}"
-cp /usr/local/share/no-interactive-login.sh "${NOINTERACTIVELOGIN}"
-# TODO: use awk instead to avoid issue with delimiters
-sed -i \
-	-e "s%{{VOLUME_GIT}}%${VOLUME_GIT}%g" \
-	-e "s%{{OWNER}}%${OWNER}%g" \
-	-e "s%{{FRONTEND_NAME}}%${FRONTEND_NAME}%g" \
-	-e "s%{{FRONTEND_DOMAIN}}%${FRONTEND_DOMAIN}%g" \
-	-e "s%{{FRONTEND_VERIFY_HOST_KEY_DNS}}%${FRONTEND_VERIFY_HOST_KEY_DNS}%g" \
-	-e "s%{{FRONTEND_PORT}}%${FRONTEND_PORT}%g" \
-	-e "s%{{INTRANET_NAME}}%${INTRANET_NAME}%g" \
-	-e "s%{{INTRANET_DOMAIN}}%${INTRANET_DOMAIN}%g" \
-	-e "s%{{INTRANET_PORT}}%${INTRANET_PORT}%g" \
-	-e "s%{{TOR_NAME}}%${TOR_NAME}%g" \
-	-e "s%{{TOR_DOMAIN}}%${TOR_DOMAIN}%g" \
-	-e "s%{{TOR_PORT}}%${TOR_PORT}%g" \
-	"${NOINTERACTIVELOGIN}"
+awk \
+	-v VOLUME_GIT="${VOLUME_GIT}" \
+	-v OWNER="${OWNER}" \
+	-v FRONTEND_NAME="${FRONTEND_NAME}" \
+	-v FRONTEND_DOMAIN="${FRONTEND_DOMAIN}" \
+	-v FRONTEND_VERIFY_HOST_KEY_DNS="${FRONTEND_VERIFY_HOST_KEY_DNS}" \
+	-v FRONTEND_PORT="${FRONTEND_PORT}" \
+	-v INTRANET_NAME="${INTRANET_NAME}" \
+	-v INTRANET_DOMAIN="${INTRANET_DOMAIN}" \
+	-v INTRANET_PORT="${INTRANET_PORT}" \
+	-v TOR_NAME="${TOR_NAME}" \
+	-v TOR_DOMAIN="${TOR_DOMAIN}" \
+	-v TOR_PORT="${TOR_PORT}" \
+	' {
+		sub(/{{VOLUME_GIT}}/, VOLUME_GIT);
+		sub(/{{OWNER}}/, OWNER);
+		sub(/{{FRONTEND_NAME}}/, FRONTEND_NAME);
+		sub(/{{FRONTEND_DOMAIN}}/, FRONTEND_DOMAIN);
+		sub(/{{FRONTEND_VERIFY_HOST_KEY_DNS}}/, FRONTEND_VERIFY_HOST_KEY_DNS);
+		sub(/{{FRONTEND_PORT}}/, FRONTEND_PORT);
+		sub(/{{INTRANET_NAME}}/, INTRANET_NAME);
+		sub(/{{INTRANET_DOMAIN}}/, INTRANET_DOMAIN);
+		sub(/{{INTRANET_PORT}}/, INTRANET_PORT);
+		sub(/{{TOR_NAME}}/, TOR_NAME);
+		sub(/{{TOR_DOMAIN}}/, TOR_DOMAIN);
+		sub(/{{TOR_PORT}}/, TOR_PORT);
+		print;
+	}' \
+	/usr/local/share/no-interactive-login.sh > "${NOINTERACTIVELOGIN}"
 
 # Rights management
 chown root:git -R "${HOME_GIT}" "${ETC_SSH}"
