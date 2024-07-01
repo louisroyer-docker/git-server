@@ -12,6 +12,7 @@ OWNER="{{OWNER}}"
 FRONTEND_NAME="{{FRONTEND_NAME}}"
 FRONTEND_DOMAIN="{{FRONTEND_DOMAIN}}"
 FRONTEND_PORT="{{FRONTEND_PORT}}"
+FRONTEND_VERIFY_HOST_KEY_DNS="{{FRONTEND_VERIFY_HOST_KEY_DNS}}"
 
 INTRANET_NAME="{{INTRANET_NAME}}"
 INTRANET_DOMAIN="{{INTRANET_DOMAIN}}"
@@ -38,6 +39,10 @@ if [[ -n "${FRONTEND_NAME}" ]]; then
 	if [[ -n "${FRONTEND_PORT}" ]]; then
 		printf '\t%s\n' "Port ${FRONTEND_PORT}"
 	fi
+	if [[ -n "${FRONTEND_VERIFY_HOST_KEY_DNS}" ]]; then
+		printf '\t%s\n' "VerifyHostKeyDNS ${FRONTEND_VERIFY_HOST_KEY_DNS}"
+	fi
+
 	printf '\t%s\n\n' "IdentityFile ~/.ssh/id_rsa"
 fi
 
@@ -54,7 +59,7 @@ if [[ -n "${INTRANET_NAME}" ]]; then
 fi
 
 if [[ -n "${TOR_NAME}" ]]; then
-	printf '%s\n' "Host ${TOR_DOMAIN}"
+	printf '%s\n' "Host ${TOR_NAME}"
 	printf '\t%s\n' "User git"
 	if [[ -n "${TOR_DOMAIN}" ]]; then
 		printf '\t%s\n' "Hostname ${TOR_DOMAIN}"

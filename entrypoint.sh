@@ -49,6 +49,7 @@ sed -i \
 	-e "s%{{OWNER}}%${OWNER}%g" \
 	-e "s%{{FRONTEND_NAME}}%${FRONTEND_NAME}%g" \
 	-e "s%{{FRONTEND_DOMAIN}}%${FRONTEND_DOMAIN}%g" \
+	-e "s%{{FRONTEND_VERIFY_HOST_KEY_DNS}}%${FRONTEND_VERIFY_HOST_KEY_DNS}%g" \
 	-e "s%{{FRONTEND_PORT}}%${FRONTEND_PORT}%g" \
 	-e "s%{{INTRANET_NAME}}%${INTRANET_NAME}%g" \
 	-e "s%{{INTRANET_DOMAIN}}%${INTRANET_DOMAIN}%g" \

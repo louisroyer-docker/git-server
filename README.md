@@ -28,6 +28,7 @@ services:
       FRONTEND_NAME: "example.org"
       FRONTEND_DOMAIN: "git.example.org"
       FRONTEND_PORT: "2222"
+      FRONTEND_VERIFY_HOST_KEY_DNS: "yes"
       INTRANET_NAME: "example.local"
       INTRANET_DOMAIN: "git.example.local"
       INTRANET_PORT: "22"
