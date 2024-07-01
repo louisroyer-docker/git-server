@@ -2,8 +2,6 @@
 ![Docker Image CI](https://github.com/louisroyer-docker/git-server/actions/workflows/docker-image.yml/badge.svg)
 ![CI](https://github.com/louisroyer-docker/git-server/actions/workflows/main.yml/badge.svg)
 ```yaml
-version: "3.8"
-
 services:
   git-server:
     container_name: git-server
