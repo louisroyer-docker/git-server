@@ -1,9 +1,9 @@
-# Copyright 2024 Louis Royer. All rights reserved.
+# Copyright Louis Royer. All rights reserved.
 # Use of this source code is governed by a MIT-style license that can be
 # found in the LICENSE file.
 # SPDX-License-Identifier: MIT
 
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 LABEL maintainer="Louis Royer <infos.louis.royer@gmail.com>" \
       org.opencontainers.image.authors="Louis Royer <infos.louis.royer@gmail.com>" \
       org.opencontainers.image.source="https://github.com/louisroyer/docker-git-server"
@@ -12,8 +12,7 @@ LABEL maintainer="Louis Royer <infos.louis.royer@gmail.com>" \
 # allowing to search and apply security upgrades
 ARG BUILD_DATE=""
 
-RUN apt-get update -q && \
-    DEBIAN_FRONTEND=non-interactive apt-get upgrade -qy && \
+RUN DEBIAN_FRONTEND=non-interactive apt-get --update upgrade -qy && \
     DEBIAN_FRONTEND=non-interactive apt-get install -qy openssh-server git gosu --no-install-recommends --no-install-suggests && \
     rm -rf /var/lib/apt/lists/* && \
     rm -f /etc/ssh/ssh_host_*_key*
